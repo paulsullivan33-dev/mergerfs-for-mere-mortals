@@ -1,0 +1,10 @@
+$ mergerfs --version
+mergerfs version: 2.33.5
+
+$ dpkg -S /usr/bin/fusermount /usr/bin/mergerfs
+dpkg-query: no path found matching pattern /usr/bin/fusermount
+mergerfs: /usr/bin/mergerfs
+
+$ ls branches
+/home/hatch/workspace/mergerfs-lab/diskA/media/on-a.txt
+/home/hatch/workspace/mergerfs-lab/diskB/media/on-b.txt

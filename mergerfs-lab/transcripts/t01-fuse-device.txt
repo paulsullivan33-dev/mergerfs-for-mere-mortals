@@ -1,0 +1,23 @@
+$ ls -la /dev/fuse
+ls: cannot access '/dev/fuse': No such file or directory
+
+$ modprobe fuse
+modprobe: FATAL: Module fuse not found in directory /lib/modules/7.0.0-39-generic
+exit=1
+
+$ mknod /dev/fuse c 10 229
+mknod: /dev/fuse: Operation not permitted
+exit=1
+ls: cannot access '/dev/fuse': No such file or directory
+
+$ head -c 0 /dev/fuse (open test)
+head: cannot open '/dev/fuse' for reading: No such file or directory
+exit=1
+
+$ grep fuse /proc/filesystems
+	fuseblk
+nodev	fuse
+nodev	fusectl
+
+$ cat /sys/module/fuse/parameters/* 2>/dev/null; ls /sys/module/ | grep -i fuse
+done

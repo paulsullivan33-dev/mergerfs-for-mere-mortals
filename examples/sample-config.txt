@@ -1,0 +1,16 @@
+A sample mergerfs config file (chapter 7)
+====================================================================
+Use it with:  mergerfs -o config=/path/to/this/file \
+                /mnt/disk1:/mnt/disk2 /pool
+or from fstab with the config= option. One key=value pair
+per line, using the same names as the -o options. Anything
+set here can still be overridden on the command line.
+
+branches=/mnt/disk1:/mnt/disk2
+allow_other=true
+use_ino=true
+category.create=epmfs
+minfreespace=20G
+moveonenospc=true
+cache.files=partial
+dropcacheonclose=true

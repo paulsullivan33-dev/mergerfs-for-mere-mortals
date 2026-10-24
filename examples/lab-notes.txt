@@ -1,0 +1,67 @@
+The lab — a real install, a real mount attempt, an honest wall
+====================================================================
+
+The lab ran on the build sandbox (Ubuntu 24.04.5 LTS,
+kernel 7.0.0-39-generic, root). Its aim, in order: install
+mergerfs for real; pool two branch folders; create and read
+files through the pool; and, if the bench allowed, watch
+moveonenospc rescue a write on a full branch. It reached
+the second step's doorstep and no further, for one reason
+that has nothing to do with mergerfs: this sandbox is not
+allowed a FUSE device.
+
+What ran, transcript by transcript (all in
+mergerfs-lab/transcripts/):
+
+  * t00 — the first apt attempt failed on a lock held by
+    another process sharing the sandbox. The lab therefore
+    used an isolated apt state directory with a minimal
+    noble source list (main + universe, plus noble-updates)
+    and downloaded the .deb packages directly. No other
+    process's state was touched.
+  * t01 — the FUSE facts. /proc/filesystems lists fuse,
+    fuseblk and fusectl (the kernel supports FUSE), but
+    /dev/fuse does not exist, the fuse module is not
+    present under /lib/modules for this kernel, creating
+    the node is refused ("mknod: Operation not
+    permitted"), and opening the path fails. The device
+    cannot be conjured from inside this sandbox.
+  * t02–t03 — the install. mergerfs 2.33.5-1ubuntu2 from
+    the Ubuntu archive for noble, installed with dpkg
+    alongside libfuse2t64 2.9.9; `mergerfs --version`
+    answers 2.33.5. Wrinkle: the v2 `fuse` package stayed
+    unconfigured because fuse3 3.14 was already present
+    and declares a conflict; mergerfs was unaffected (its
+    binary bundles its FUSE library — ldd shows no
+    libfuse), and /usr/bin/fusermount resolves to
+    fusermount3. Two branch folders were created, each
+    with a media/ folder and one planted file.
+  * t04 — the mount attempt, made anyway so the failure
+    is evidence rather than hearsay:
+      mergerfs diskA:diskB pool -o allow_other,use_ino,category.create=epmfs
+      -> fuse: device not found, try 'modprobe fuse' first
+      (exit 1). The pool stayed empty; a fusermount -u on
+      the never-mounted folder fails as it should.
+  * t05 — verification against the man page shipped with
+    the package: category defaults (action epall, create
+    epmfs, search ff), minfreespace default 4G, the full
+    policy table, the .mergerfs control interface and its
+    user.mergerfs.* keys, moveonenospc default false.
+    Every default and policy name the chapters assert was
+    checked against this page, not remembered.
+
+Verified live: installation, the program and its complete
+CLI surface, the manual's defaults and policy set, the
+packaging behaviour on Ubuntu 24.04, and the exact failure
+mode of a FUSE-less environment.
+
+Documented-only (from the project's manual, labelled in
+the chapters and in criteria.md): everything that needs a
+live pool — mounting (chapter 4), pooling and policy
+behaviour in action (chapters 5–6), moveonenospc, runtime
+xattr changes (chapter 8), and sharing a pool onwards by
+NFS or Samba (chapter 9).
+
+Fixtures: diskA/diskB branch folders with one small text
+file each ("on-a.txt", "on-b.txt"), invented for the lab.
+No real data, no secrets in any transcript.

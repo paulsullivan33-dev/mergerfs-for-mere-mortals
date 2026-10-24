@@ -1,0 +1,15 @@
+$ apt-cache policy mergerfs
+Reading package lists...
+Building dependency tree...
+Reading state information...
+mergerfs:
+  Installed: (none)
+--
+fuse3:
+  Installed: 3.14.0-5build1
+--
+libfuse2t64:
+  Installed: (none)
+--
+libfuse3-3:
+  Installed: 3.14.0-5build1

@@ -1,0 +1,57 @@
+MergerFS — the distilled commands
+====================================================================
+Placeholders: /mnt/disk1, /mnt/disk2 and /pool stand for your
+own mounts. Every command that touches a live pool assumes a
+machine where /dev/fuse exists (chapter 3 explains the check).
+
+BEFORE ANYTHING (chapter 3)
+--------------------------------------------------------------------
+  ls -l /dev/fuse                    # must exist
+  grep -w fuse /proc/filesystems     # expect: nodev fuse
+
+INSTALL (chapter 3)
+--------------------------------------------------------------------
+  sudo apt install mergerfs          # Debian / Ubuntu
+  sudo dnf install mergerfs          # Fedora family
+  mergerfs --version
+  man mergerfs                       # the manual is half the product
+
+FIRST POOL (chapter 4)
+--------------------------------------------------------------------
+  mkdir -p /mnt/disk1/media /mnt/disk2/media /pool
+  sudo mergerfs /mnt/disk1:/mnt/disk2 /pool \
+    -o allow_other,use_ino,category.create=epmfs
+  ls /pool/media                     # both branches' files, one view
+  findmnt /pool                      # confirm the mount
+  sudo fusermount -u /pool           # unmount (or: sudo umount /pool)
+
+MAKE IT PERMANENT (chapter 7)
+--------------------------------------------------------------------
+  # /etc/fstab — one line:
+  /mnt/disk1:/mnt/disk2 /pool fuse.mergerfs \
+    defaults,allow_other,use_ino,category.create=epmfs,\
+    x-systemd.requires-mounts-for=/mnt/disk1,\
+    x-systemd.requires-mounts-for=/mnt/disk2 0 0
+  sudo mount /pool                   # test before rebooting, always
+
+WHEN A DRIVE FILLS (chapter 6)
+--------------------------------------------------------------------
+  # add at mount time, or in fstab:
+  -o minfreespace=20G,moveonenospc=true
+  df -h /mnt/disk1 /mnt/disk2        # watch the branches, not the pool
+
+LIVE TUNING (chapter 8 — current releases use the mount point;
+the 2.33 series uses the .mergerfs pseudo-file shown here)
+--------------------------------------------------------------------
+  sudo apt install attr              # for getfattr / setfattr
+  getfattr -d /pool/.mergerfs
+  setfattr -n user.mergerfs.category.create -v mfs /pool/.mergerfs
+  setfattr -n user.mergerfs.branches -v "+/mnt/disk3" /pool/.mergerfs
+  # runtime changes evaporate at unmount — persist them in fstab
+
+SOMETHING'S WRONG (chapter 14)
+--------------------------------------------------------------------
+  findmnt /pool                      # is it mounted at all?
+  grep mergerfs /proc/mounts
+  df -h /mnt/disk1 /mnt/disk2        # real space lives on branches
+  ls /mnt/disk1 /mnt/disk2           # are the files there underneath?

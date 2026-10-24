@@ -1,0 +1,6 @@
+$ apt-get update
+Reading package lists...
+E: Could not get lock /var/lib/apt/lists/lock. It is held by process 6730 (apt-get)
+E: Unable to lock directory /var/lib/apt/lists/
+
+$ apt-cache policy mergerfs fuse3

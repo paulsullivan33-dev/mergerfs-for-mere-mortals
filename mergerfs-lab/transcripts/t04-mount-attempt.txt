@@ -1,0 +1,12 @@
+$ mergerfs /home/hatch/workspace/mergerfs-lab/diskA:/home/hatch/workspace/mergerfs-lab/diskB /home/hatch/workspace/mergerfs-lab/pool -o allow_other,use_ino,category.create=epmfs
+fuse: device not found, try 'modprobe fuse' first
+exit=1
+
+$ ls the pool afterwards
+total 0
+drwxrws--- 1 root nogroup  0 Oct 24 04:16 .
+drwxrws--- 1 root nogroup 42 Oct 24 04:16 ..
+
+$ fusermount -u pool (nothing mounted)
+fusermount: failed to unmount /home/hatch/workspace/mergerfs-lab/pool: Invalid argument
+exit=1

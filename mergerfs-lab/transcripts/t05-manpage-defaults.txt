@@ -1,0 +1,41 @@
+Verification against the man page shipped with the installed package
+(mergerfs 2.33.5, /usr/share/man/man1/mergerfs.1.gz, rendered locally)
+
+== category defaults ==
+\f[B]category.action=POLICY\f[]: Sets policy of all FUSE functions in
+the action category.
+\f[B]category.create=POLICY\f[]: Sets policy of all FUSE functions in
+the create category.
+\f[B]category.search=POLICY\f[]: Sets policy of all FUSE functions in
+the search category.
+
+== minfreespace ==
+kilobyte, megabyte, and gigabyte respectively.
+(default: 4G)
+.IP \[bu] 2
+
+== policy names present ==
+all epall epff eplfs eplus epmfs eppfrd eprand erofs ff lfs lus mfs newest pfrd rand (extracted from the policy table, lines 860-1015 of the rendered page) 
+
+== control interface (this version) ==
+.SS .mergerfs pseudo file (deprecated)
+.PP
+NOTE: this interface will be removed in mergerfs 3.0
+.IP
+.nf
+
+<mountpoint>/.mergerfs
+
+.fi
+.PP
+
+== moveonenospc xattr listing from the manual ==
+user.mergerfs.branches:\ /mnt/a=RW:/mnt/b=RW
+user.mergerfs.minfreespace:\ 4294967295
+user.mergerfs.moveonenospc:\ false
+
+== defaults, verbatim from the rendered page ==
+category.action default: epall
+category.create default: epmfs
+category.search default: ff
+("The default create policy is epmfs." — policies section)
