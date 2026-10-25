@@ -141,3 +141,19 @@ before the pool holds anything you
 would miss. The lab's transcripts live
 in `mergerfs-lab/transcripts/`; its
 notes are `examples/lab-notes.txt`.
+
+---
+
+## Part of the series
+
+This guide is one of the [For Mere Mortals](https://paulsullivan33-dev.github.io/mere-mortals/) guides: plain-language guides to the tools programmers and makers use.
+
+Related guides:
+
+- [SnapRAID for Mere Mortals](https://paulsullivan33-dev.github.io/snapraid-for-mere-mortals/)
+- [ZFS for Mere Mortals](https://paulsullivan33-dev.github.io/zfs-for-mere-mortals/)
+- [Samba and NFS for Mere Mortals](https://paulsullivan33-dev.github.io/samba-and-nfs-for-mere-mortals/)
+
+## License
+
+The writing in this guide is licensed under [CC BY 4.0](https://github.com/paulsullivan33-dev/mergerfs-for-mere-mortals/blob/main/LICENSE). Code examples and lab scripts are licensed under the [MIT License](https://github.com/paulsullivan33-dev/mergerfs-for-mere-mortals/blob/main/LICENSE-CODE).
